@@ -44,20 +44,29 @@ int main(int argc, char *argv[])
 	mosquitto_lib_init();
 	//创建客户端实例
 	mosclient = mosquitto_new(itoa(rand(), (char*)session_id, 10), true, NULL);
+	//设置连接回调函数
 	mosquitto_connect_callback_set(mosclient, mqtt_cmd_connect_callback);
+	//设置断开连接回调函数
 	mosquitto_disconnect_callback_set(mosclient, mqtt_cmd_disconnect_callback);
+	//获取CA认证
 	mosquitto_tls_set(mosclient, "ca.cer", NULL, NULL, NULL, NULL);  //请联系源清慧虹技术支持获得CA证书文件
+	//设置重连时间
 	mosquitto_message_retry_set(mosclient, 3);
+	//设置消息回调
 	mosquitto_message_callback_set(mosclient, message_callback);
+	//设置用户名密码
 	mosquitto_username_pw_set(mosclient, "develop", "666666");
 
+	//连接
 	if (mosquitto_connect(mosclient, "59.108.232.149", 8883, 60))
 	{
 		printf("Unable to connect mqtt server, exit\n");
 	}
 	else
 	{
+		//订阅所有主题
 		mosquitto_subscribe(mosclient, NULL, "#", 0);
+		//循环
 		mosquitto_loop_forever(mosclient, 30000, 1000);
 	}
 	mosquitto_destroy(mosclient);
