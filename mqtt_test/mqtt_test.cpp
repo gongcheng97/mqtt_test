@@ -40,7 +40,9 @@ int main(int argc, char *argv[])
 	mosquitto *mosclient;
 	char *session_id[15];
 
+	//lib库初始化
 	mosquitto_lib_init();
+	//创建客户端实例
 	mosclient = mosquitto_new(itoa(rand(), (char*)session_id, 10), true, NULL);
 	mosquitto_connect_callback_set(mosclient, mqtt_cmd_connect_callback);
 	mosquitto_disconnect_callback_set(mosclient, mqtt_cmd_disconnect_callback);
