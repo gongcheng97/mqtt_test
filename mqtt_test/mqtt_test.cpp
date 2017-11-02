@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		//订阅所有主题
-		mosquitto_subscribe(mosclient, NULL, "#", 0);
+		mosquitto_subscribe(mosclient, NULL, "SMB/UAU101162700567/GRTU1000", 0);
 		//循环
 		mosquitto_loop_forever(mosclient, 30000, 1000);
 	}
